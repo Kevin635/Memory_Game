@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import { useState } from 'react';
+import SingleCard from './components/SingleCard';
 
 
 const cardImages = [
@@ -21,6 +22,8 @@ const cardImages = [
 function App() {
   const [cards,setCards] = useState([])
   const [turns, setTurns] = useState(0)
+  const [choiceOne, setChoiceOne] = useState(null)
+  const [choiceTwo, setChoiceTwo] = useState(null)
 
 // shuffle cards
 const shuffleCards = () =>{
@@ -42,12 +45,7 @@ console.log(cards,turns)
 
       <div className="card-grid">
         {cards.map(card=>(
-          <div className="card" key={card.id}>
-            <div>
-              <img className='front' src={card.src} alt="card front" width="300" height="300" />
-              <img className='back' src="/img/cover_img2.jpg" alt="card back" width="300" height="300"/>
-            </div>
-          </div>
+          <SingleCard key={card.id} card ={card}/>
         ))}
       </div>
 
