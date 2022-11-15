@@ -1,19 +1,19 @@
 import logo from './logo.svg';
 import './App.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import SingleCard from './components/SingleCard';
 
 
 const cardImages = [
 
-{'src': "/img/card-1.jpg"},
-{'src': "/img/card-2.jpg"},
-{'src': "/img/card-3.jpg"},
-{'src': "/img/card-4.jpg"},
-{'src': "/img/card-5.jpg"},
-{'src': "/img/card-6.jpg"},
-{'src': "/img/card-7.jpg"},
-{'src': "/img/card-8.jpg"},
+{'src': "/img/card-1.jpg" ,matched:false},
+{'src': "/img/card-2.jpg", matched:false},
+{'src': "/img/card-3.jpg" ,matched:false},
+{'src': "/img/card-4.jpg" ,matched:false},
+{'src': "/img/card-5.jpg", matched:false},
+{'src': "/img/card-6.jpg" ,matched:false},
+{'src': "/img/card-7.jpg", matched:false},
+{'src': "/img/card-8.jpg" ,matched:false},
 
 ]
 
@@ -36,6 +36,42 @@ const shuffleCards = () =>{
 
 }
 
+//handles a choice 
+const handleChoice = (card) => {
+  choiceOne ? setChoiceTwo(card): setChoiceOne(card)
+
+}
+
+// compare 2 cards
+useEffect(() => {
+  if(choiceOne && choiceTwo){
+    if(choiceOne.src === choiceTwo.src){
+      setCards(prevTurns =>{
+        return prevTurns.map(card =>{
+          if(card.src === choiceOne.src){
+            return {...card,matched:true}
+          }else{
+            return card
+          }
+        })
+      })
+      resetTurn()
+    }else{
+      
+     resetTurn() 
+    }
+  }
+},[choiceOne,choiceTwo])
+
+console.log(cards)
+
+//resets choices & increase turn
+const resetTurn = () => {
+  setChoiceOne(null)
+  setChoiceTwo(null)
+  setTurns(prevTurns => prevTurns+1)
+}
+
 console.log(cards,turns)
 
   return (
@@ -45,7 +81,12 @@ console.log(cards,turns)
 
       <div className="card-grid">
         {cards.map(card=>(
-          <SingleCard key={card.id} card ={card}/>
+          <SingleCard 
+          key={card.id} 
+          card ={card}
+          handleChoice = {handleChoice}
+          flipped={card === choiceOne || card === choiceTwo || card.matched}
+        />
         ))}
       </div>
 
