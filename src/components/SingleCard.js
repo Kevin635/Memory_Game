@@ -10,6 +10,10 @@ export default function SingleCard({ card, handleChoice, flipped,disabled }) {
     }
   }
 
+  // const gone = () => {
+  //   .card()
+  // }
+
     return (
         <div className="card">
             <div className={flipped ? "flipped" : ""}>

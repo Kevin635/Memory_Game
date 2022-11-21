@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import SingleCard from './components/SingleCard';
 
 
+
 const cardImages = [
 
 {'src': "/img/card-1.jpg" ,matched:false},
@@ -30,8 +31,11 @@ function App() {
 // shuffle cards
 const shuffleCards = () =>{
   const shuffledCards = [...cardImages,...cardImages]
-  .sort(()=> Math.random()-0.5)
+  .sort(()=> Math.random()-0.8)
   .map((card)=>({...card,id:Math.random() }))
+
+  setChoiceOne(null)
+  setChoiceTwo(null)
 
   setCards(shuffledCards)
   setTurns(0)
@@ -44,6 +48,8 @@ const handleChoice = (card) => {
 
 }
 
+
+
 // compare 2 cards
 useEffect(() => {
   if(choiceOne && choiceTwo){
@@ -52,12 +58,13 @@ useEffect(() => {
       setCards(prevTurns =>{
         return prevTurns.map(card =>{
           if(card.src === choiceOne.src){
-            return {...card,matched:true}
+            return {...card,matched:true,}
           }else{
             return card
           }
         })
       })
+      
       resetTurn()
     }else{
       
@@ -76,12 +83,19 @@ const resetTurn = () => {
   setDisabled(false)
 }
 
+// //start a new game auto
+// useEffect(()=> {
+//   shuffleCards()
+// },[])
+
 console.log(cards,turns)
+
+
 
   return (
     <div className="App">
       <h1>Memory Game</h1>
-      <button onClick={shuffleCards}>New Game</button>
+      <button onClick={shuffleCards}>Start Game</button>
 
       <div className="card-grid">
         {cards.map(card=>(
